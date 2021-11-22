@@ -1,18 +1,16 @@
 from bs4 import BeautifulSoup
 import requests
+from datetime import date
 
 
-# no_skills = input("Enter the undesired skills -> ")
-# print(f"Filtering jobs for desired skillset")
-main_sauce = requests.get('https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&txtKeywords=python&txtLocation=').text
+url = 'https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&txtKeywords=python&txtLocation='
 
+timestamp = date.today()
+
+
+
+main_sauce = requests.get(url).text
 sauce = BeautifulSoup(main_sauce, 'lxml')
-
-# now = datetime.now()
-# timestamp = datetime.timestamp(now)
-
-# timestamp = datetime.fromtimestamp(timestamp)
-
 
 all_job = sauce.find_all('li', class_ = 'clearfix job-bx wht-shd-bx')
 
@@ -26,7 +24,7 @@ for index, job in enumerate(all_job):
     skills = job.find('span', class_ = 'srp-skills').text.replace(' ','')
     posted_date = job.find('span', class_ = 'sim-posted').span.text
     more_info = job.header.h2.a['href']
-    with open(f'Info\InfofileNo{index}.txt', 'w') as info_file:
+    with open(f'Info\InfofileNo{index}_{timestamp}.txt', 'w') as info_file:
         info_file.write(f"Total Job : {job_found} \n")
         info_file.write(f"Company Name : {comp_name.strip()}\n")
         info_file.write(f"Required Experience : {exp}\n")
