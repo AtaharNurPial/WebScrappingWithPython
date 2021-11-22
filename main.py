@@ -7,8 +7,6 @@ url = 'https://www.timesjobs.com/candidate/job-search.html?searchType=personaliz
 
 timestamp = date.today()
 
-
-
 main_sauce = requests.get(url).text
 sauce = BeautifulSoup(main_sauce, 'lxml')
 
